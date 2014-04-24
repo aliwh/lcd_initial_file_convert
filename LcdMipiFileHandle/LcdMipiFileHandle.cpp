@@ -1,5 +1,6 @@
 // LcdMipiFileHandle.cpp : 定义控制台应用程序的入口点。
 //
+
 //TODO:需要改进的地方
 //1.只能处理H:\\ILI9881_CPT5.5_MIPI.txt这一个文件
 //2.只能输出一个文件名
