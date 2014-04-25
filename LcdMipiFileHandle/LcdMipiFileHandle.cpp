@@ -25,20 +25,16 @@ enum MyEnum
 	INCHARACTER
 };
 
+static char g_convert_buf[MAXSIZE][MAXLEN];
 static char shift_buf[MAXSIZE][MAXLEN];
 static int shift_n = -1;
 static int shift_count = 0;
 
-int _tmain(int argc, _TCHAR* argv[])
+//从文件中读入命令到全局数组g_shift_buf中，返回数组大小
+int lcd_cmd_read(char* filename,int line)
 {
-	int n = 0;
-	char a[100];
-	int i = 0, j = 0;
-	int state = INCHARACTER;
-
-	char *filename = "D:\\workspace\\Mipifiles\\ILI9881_CPT5.5_MIPI.txt"; //文件名
-	char commandbuf[MAXSIZE][MAXLEN];
-	FILE *fp, *fp1;
+	FILE *fp;
+	int i = 0;
 
 	if ((fp = fopen(filename, "r")) == NULL) //判断文件是否存在及可读
 	{
@@ -48,35 +44,50 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	while (!feof(fp))
 	{
-
-		fgets(commandbuf[i], 1024, fp);  //读取一行
-	//	printf("%s\n",commandbuf[i]);
+		
+		fgets(g_convert_buf[i], line, fp);  //读取一行
 		i++;
 	}
 
 	fclose(fp);                     //关闭文件
 
-	int row = i;
+	return i;
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	int n = 0;
+	char a[100];
+	int i = 0, j = 0, row = 0;;
+	int state = INCHARACTER;
+
+	char *filename = "D:\\workspace\\Mipifiles\\ILI9881_CPT5.5_MIPI.txt"; //文件名
+	FILE *fp1;
+
+	row = lcd_cmd_read(filename,1024);
+	if (row < 0)
+		return -1;
+
 	for (n = 0; n < MAXSIZE; n++)
 	{
 		i = 0; j = 0; state = INCHARACTER;
 
 		//提取寄存器数据
-		while (commandbuf[n][i] != '\0')
+		while (g_convert_buf[n][i] != '\0')
 		{
-			if (state == INNUMBER && commandbuf[n][i] != ')' && commandbuf[n][i] != 'x' && commandbuf[n][i] != 'X' && commandbuf[n][i] != ' ')
+			if (state == INNUMBER && g_convert_buf[n][i] != ')' && g_convert_buf[n][i] != 'x' && g_convert_buf[n][i] != 'X' && g_convert_buf[n][i] != ' ')
 			{
-				a[j] = commandbuf[n][i];
+				a[j] = g_convert_buf[n][i];
 				++j;
 			}
-			else if (commandbuf[n][i] == '0' && state == INCHARACTER)
+			else if (g_convert_buf[n][i] == '0' && state == INCHARACTER)
 			{
-				if (commandbuf[n][i + 1] == 'x' || commandbuf[n][i + 1] == 'X')
+				if (g_convert_buf[n][i + 1] == 'x' || g_convert_buf[n][i + 1] == 'X')
 				{
 					state = INNUMBER;
 				}
 			}
-			else if ((commandbuf[n][i] == ' ' || commandbuf[n][i] == ')') && state == INNUMBER)
+			else if ((g_convert_buf[n][i] == ' ' || g_convert_buf[n][i] == ')') && state == INNUMBER)
 			{
 				state = INCHARACTER;
 			}
@@ -88,7 +99,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 
 		//查找指定的字符串
-		if (strstr(commandbuf[n], "LCD_ILI9881_CMD"))
+		if (strstr(g_convert_buf[n], "LCD_ILI9881_CMD"))
 		{
 			shift_n++;
 			shift_count = 0;
@@ -105,7 +116,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			}
 
 		}
-		else if (strstr(commandbuf[n], "LCD_ILI9881_INDEX"))
+		else if (strstr(g_convert_buf[n], "LCD_ILI9881_INDEX"))
 		{
 			for (i = 0; i < 2; i++)
 			{
