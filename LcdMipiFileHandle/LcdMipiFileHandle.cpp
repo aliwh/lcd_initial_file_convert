@@ -16,6 +16,8 @@
 #include <ctype.h>
 #include <stdlib.h>
 
+#include "parser.h" //lcd init ÎÄ¼ş½âÎöÆ÷
+
 #define MAXSIZE 1000
 #define MAXLEN 200
 
