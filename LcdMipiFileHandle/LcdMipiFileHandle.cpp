@@ -12,9 +12,10 @@
 
 #include "stdafx.h"
 #include <string.h>
-#include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
+
+#include "parser.h" //lcd init 文件解析器
 
 #define MAXSIZE 1000
 #define MAXLEN 200
@@ -61,7 +62,12 @@ int _tmain(int argc, _TCHAR* argv[])
 	int i = 0, j = 0, row = 0;;
 	int state = INCHARACTER;
 
+	char filename[100];
+
+#ifdef DEBUG
 	char *filename = "D:\\workspace\\Mipifiles\\ILI9881_CPT5.5_MIPI.txt"; //文件名
+#endif
+
 	FILE *fp1;
 
 	row = lcd_cmd_read(filename,1024);
