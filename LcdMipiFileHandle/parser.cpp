@@ -11,16 +11,16 @@ enum MyEnum
 	INCHARACTER
 };
 
-static char g_convert_buf[MAXSIZE][MAXLEN];
-static char shift_buf[MAXSIZE][MAXLEN];
+static char g_convert_buf[MAXSIZE][MAXLEN];//将文件内容读取到此数组中
+static char shift_buf[MAXSIZE][MAXLEN];//转换后的数组
 static int shift_n = -1;
 static int shift_count = 0;
 
 //具体的解析函数
-int  parser_format0();
-void parser_format1();
-void parser_format2();
-void parser_format3();
+static int  parser_format0();
+static void parser_format1();
+static void parser_format2();
+static void parser_format3();
 
 int parser_mipi_file(struct path* path, int parser_format)
 {
@@ -61,7 +61,7 @@ int parser_mipi_file(struct path* path, int parser_format)
 	return 0;
 }
 
-int parser_format0()
+static int parser_format0()
 {
 	int i, j,n;
 	char a[100];
@@ -72,7 +72,7 @@ int parser_format0()
 	{
 		i = 0; j = 0; state = INCHARACTER;
 
-		//提取寄存器数据
+		//利用简单状态机，提取寄存器数据
 		while (g_convert_buf[n][i] != '\0')
 		{
 			if (state == INNUMBER && g_convert_buf[n][i] != ')' && g_convert_buf[n][i] != 'x' && g_convert_buf[n][i] != 'X' && g_convert_buf[n][i] != ' ')
@@ -141,34 +141,20 @@ int parser_format0()
 	return 0;
 }
 
-void parser_format1()
+static void parser_format1()
 {
 
 	return;
 }
 
-void parser_format2()
+static void parser_format2()
 {
 
 	return;
 }
 
-void parser_format3()
+static void parser_format3()
 {
 
 	return;
 }
-
-
-#if 0
-
-//TODO:判断fp1是否为空
-
-for (i = 0; i <= shift_n; i++)
-{
-	fprintf(fp1, "cmd%03d = <0x39>, <1>, <0>, <2>, <0x%s>;\n", i, shift_buf[i]);
-}
-fclose(fp1);
-
-printf("LCD mipi init code convert successed!\nSave final file in %s\n", filename);
-#endif
