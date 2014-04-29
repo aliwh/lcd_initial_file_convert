@@ -4,7 +4,7 @@
 //TODO:需要改进的地方
 //1.只能处理H:\\ILI9881_CPT5.5_MIPI.txt这一个文件
 //2.只能输出一个文件名,最好在输出的文件名上增加时间，用于区分
-//3.处理的LCD命令文件格式需要更多元，更通用
+//3.处理的LCD命令文件格式需要更多元，更通用(已修改了程序架构，单独抽象出了解析器)
 //4.程度的架构需要优化下、编程规范化
 //5.程序本身存在一些bug需要fix（a.最后一个命令打印不出来的问题（Done:已解）;b.命令的长度问题）
 //6.代码通过Git进行管理（Done:已挂靠到github服务器上）
@@ -41,7 +41,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 
 	//若解析成功，且转换成功，将转换后的文件名及路径告知用户
-	printf("Congratulation! %s\n", file_path.output);
+	printf("Congratulation! \nfinal file store in <.\\LcdMipiFileHandle\\mipifiles >\n");
 	
 	return 0;
 
