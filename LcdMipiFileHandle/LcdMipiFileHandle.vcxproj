@@ -76,6 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="..\..\..\..\Mipifiles\ILI9881_CPT5.5_MIPI.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>

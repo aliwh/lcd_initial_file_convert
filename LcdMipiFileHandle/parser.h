@@ -5,7 +5,27 @@
 #ifndef LCD_MIPI_PARSER_H
 #define LCD_MIPI_PARSER_H
 
+#define MAXSIZE 1000
+#define MAXLEN 200
 
+//保存输入输出的文件名
+struct path{
+	char input[100];
+	char output[100];
+};
+
+enum Format
+{
+	CONVERT_FORMAT0 = 0,
+	CONVERT_FORMAT1,
+	CONVERT_FORMAT2,
+	CONVERT_FORMAT3,
+	CONVERT_FORMAT4,
+	CONVERT_FORMAT5,
+	CONVERT_FORMAT6
+};
+
+int parser_mipi_file(struct path* path, int parser_format);
 
 #endif
 
