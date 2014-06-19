@@ -33,7 +33,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		return -1;
 	}
 
-	ret = parser_mipi_file(&file_path, CONVERT_FORMAT0);
+	ret = parser_mipi_file(&file_path, CONVERT_FORMAT1);
 	if (ret < 0)
 	{
 		printf("Convert error\n");

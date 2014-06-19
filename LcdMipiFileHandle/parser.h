@@ -5,7 +5,7 @@
 #ifndef LCD_MIPI_PARSER_H
 #define LCD_MIPI_PARSER_H
 
-#define MAXSIZE 1000
+#define MAXSIZE 10000
 #define MAXLEN 200
 
 //保存输入输出的文件名
